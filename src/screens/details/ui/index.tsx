@@ -1,12 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  FlatList,
-  ScrollView,
-} from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { DetailsScreenParams } from '../types';
 import { StarRatingDisplay } from 'react-native-star-rating-widget';
@@ -83,33 +76,25 @@ export const Details = ({ route }: DetailsProps) => {
 
         <View style={styles.ingredients}>
           <Text style={styles.title}>Ingredients:</Text>
-          <FlatList
-            data={ingredients}
-            renderItem={({ item }) => <Text style={styles.list}>• {item}</Text>}
-            nestedScrollEnabled
-          />
+          {ingredients?.map(item => (
+            <Text style={styles.list}>• {item}</Text>
+          ))}
         </View>
 
         <View style={styles.instructions}>
           <Text style={styles.title}>Instructions:</Text>
-          <FlatList
-            data={instructions}
-            renderItem={({ item, index }) => (
-              <Text style={styles.list}>
-                {index + 1}. {item}
-              </Text>
-            )}
-            nestedScrollEnabled
-          />
+          {instructions?.map((item, index) => (
+            <Text key={index} style={styles.list}>
+              {index + 1}. {item}
+            </Text>
+          ))}
         </View>
 
         <View>
           <Text style={styles.title}>Tags:</Text>
-          <FlatList
-            data={tags}
-            renderItem={({ item }) => <Text style={styles.list}># {item}</Text>}
-            nestedScrollEnabled
-          />
+          {tags?.map(item => (
+            <Text style={styles.list}># {item}</Text>
+          ))}
         </View>
       </View>
       <View />
