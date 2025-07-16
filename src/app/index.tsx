@@ -1,11 +1,14 @@
 import React from 'react';
 import { QueryProvider } from './providers';
-import { Recipes } from '../widgets/recipes/ui';
+import { RootStack } from './navigation';
+import { NavigationContainer } from '@react-navigation/native';
 
 export const Main = () => {
   return (
     <QueryProvider>
-      <Recipes />
+      <NavigationContainer>
+        <RootStack />
+      </NavigationContainer>
     </QueryProvider>
   );
 };

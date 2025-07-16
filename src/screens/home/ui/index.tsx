@@ -1,12 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { Recipes } from '../../../widgets/recipes';
 
 export const Home = () => {
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  );
+  return <Recipes />;
 };
-
-const styles = StyleSheet.create({});

@@ -1,13 +1,6 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { StarRatingDisplay } from 'react-native-star-rating-widget';
-interface Props {
-  name: string;
-  image: string;
-  difficulty: string;
-  caloriesPerServing: number;
-  rating: number;
-  cookTimeMinutes: number;
-}
+import { RecipeItem } from '../types';
 
 export const Recipe = ({
   name,
@@ -16,7 +9,7 @@ export const Recipe = ({
   caloriesPerServing,
   rating,
   cookTimeMinutes,
-}: Props) => {
+}: RecipeItem) => {
   return (
     <View style={styles.card}>
       <Image source={{ uri: image }} style={styles.image} />
@@ -29,7 +22,11 @@ export const Recipe = ({
         <View style={styles.description}>
           <Text style={styles.text}>{caloriesPerServing} kcal</Text>
           <View style={styles.rating}>
-            <StarRatingDisplay rating={rating} color="white" starSize={11} />
+            <StarRatingDisplay
+              rating={rating ?? 0}
+              color="white"
+              starSize={11}
+            />
             <Text style={styles.text}>{rating}</Text>
           </View>
         </View>
