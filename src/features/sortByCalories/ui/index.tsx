@@ -1,10 +1,9 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import React from 'react';
 
 export const SortByCalories = ({ setCalories, calories }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sort by calories</Text>
       <View style={styles.content}>
         <TextInput
           style={styles.inputMin}
@@ -33,10 +32,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  title: {
-    fontWeight: 'bold',
-    marginBottom: 3,
   },
 
   inputMin: {

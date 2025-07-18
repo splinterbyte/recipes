@@ -11,7 +11,10 @@ export const Home = () => {
   const [calories, setCalories] = React.useState({ min: 0, max: Infinity });
   return (
     <View style={{ paddingTop: 50 }}>
-      <ButtonModal title="Filters" onPress={() => setOpen(true)} />
+      <View style={{ top: 1 }}>
+        <ButtonModal title="Filters" onPress={() => setOpen(true)} />
+      </View>
+
       <Recipes
         selectedDifficulty={selectedDifficulty}
         selectedTags={selectedTag}

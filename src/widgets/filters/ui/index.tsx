@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { SortByDifficulty } from '../../../features/sortByDifficulty';
 import { SortByTags } from '../../../features/sortByTags';
 import { SortByCalories } from '../../../features/sortByCalories';
@@ -14,14 +14,17 @@ export const Filters = ({
   return (
     <View style={styles.centeredView}>
       <View style={styles.container}>
+        <Text style={styles.title}>Sort by difficulty</Text>
         <SortByDifficulty
           setSelectedDifficulty={setSelectedDifficulty}
           selectedDifficulty={selectedDifficulty}
         />
+        <Text style={styles.title}>Sort by tags</Text>
         <SortByTags
           setSelectedTag={setSelectedTag}
           selectedTags={selectedTags}
         />
+        <Text style={styles.title}>Sort by calories</Text>
         <SortByCalories setCalories={setCalories} calories={calories} />
       </View>
     </View>
@@ -48,5 +51,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+
+  title: {
+    textAlign: 'left',
+    fontWeight: 'bold',
   },
 });

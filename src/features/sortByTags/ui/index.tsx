@@ -1,7 +1,6 @@
-import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { MultiSelect } from 'react-native-element-dropdown';
-import { useGetRecipes } from '../../../widgets/recipes/api/hooks/useGetRecipes';
+import { useGetRecipes } from '../../../entities/recipe/api/hooks/useGetRecipes';
 
 export const SortByTags = ({ setSelectedTag, selectedTags }) => {
   const { data } = useGetRecipes(null);

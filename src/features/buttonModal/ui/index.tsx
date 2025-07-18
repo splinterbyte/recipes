@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
     padding: 5,
+    bottom: 0,
   },
   button: {
     borderWidth: 2,
