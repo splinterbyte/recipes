@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
 import { useGetRecipes } from '../../../entities/recipe/api/hooks/useGetRecipes';
 import { Recipe } from '../../../entities/recipe';
 import { useNavigation } from '@react-navigation/native';
@@ -9,8 +9,9 @@ import { RecipeItem } from '../../../entities/recipe/types';
 import { Skeleton } from './skeleton';
 
 export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
-  const { data, isLoading } = useGetRecipes(null);
+  const { data, isLoading, refetch } = useGetRecipes(null);
   const [filteredData, setFilteredData] = React.useState(data);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   React.useEffect(() => {
     const getFilteredData = () => {
@@ -39,31 +40,37 @@ export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
     setFilteredData(getFilteredData());
   }, [selectedDifficulty, selectedTags, data, calories]);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    refetch();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, [refetch]);
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <View>
-      {isLoading ? (
-        [...new Array(5)].map((_, index) => <Skeleton key={index} />)
-      ) : (
-        <FlatList
-          data={filteredData}
-          renderItem={({ item }) => (
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      {isLoading || refreshing
+        ? [...new Array(5)].map((_, index) => <Skeleton key={index} />)
+        : filteredData.map((item: RecipeItem) => (
             <TouchableOpacity
               activeOpacity={1}
               onPress={() =>
                 navigation.navigate('Details', {
-                  id: item.id,
+                  id: item.id ?? 0,
                 })
               }
             >
               <Recipe {...item} />
             </TouchableOpacity>
-          )}
-          keyExtractor={item => item.id}
-        />
-      )}
-    </View>
+          ))}
+    </ScrollView>
   );
 };

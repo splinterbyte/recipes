@@ -1,5 +1,4 @@
 import { View, TextInput, StyleSheet } from 'react-native';
-import React from 'react';
 
 export const SortByCalories = ({ setCalories, calories }) => {
   return (
@@ -10,12 +9,14 @@ export const SortByCalories = ({ setCalories, calories }) => {
           placeholder="min"
           value={calories.min}
           onChangeText={value => setCalories({ ...calories, min: value })}
+          placeholderTextColor="black"
         />
         <TextInput
           style={styles.inputMax}
           placeholder="max"
           value={calories.max}
           onChangeText={value => setCalories({ ...calories, max: value })}
+          placeholderTextColor="black"
         />
       </View>
     </View>
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
-
+    paddingLeft: 10,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-
+    paddingLeft: 10,
     elevation: 2,
   },
 });
