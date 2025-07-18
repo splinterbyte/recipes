@@ -1,44 +1,61 @@
-import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
 import { useGetRecipes } from '../api/hooks/useGetRecipes';
 import { Recipe } from '../../../entities/recipe';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../app/navigation/types';
+import React from 'react';
+import { RecipeItem } from '../../../entities/recipe/types';
 
-export const Recipes = () => {
-  const { data: data = [] } = useGetRecipes();
+export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
+  const { data } = useGetRecipes(null);
+  const [filteredData, setFilteredData] = React.useState(data);
+
+  React.useEffect(() => {
+    const getFilteredData = () => {
+      if (!data) return [];
+      return data.filter((item: RecipeItem) => {
+        if (selectedDifficulty && item.difficulty !== selectedDifficulty)
+          return false;
+
+        const itemCalories = item.caloriesPerServing ?? 0;
+        const minCal = Number(calories.min) || 0;
+        const maxCal = Number(calories.max) || Infinity;
+
+        if (itemCalories < minCal || itemCalories > maxCal) {
+          return false;
+        }
+        if (
+          selectedTags.length > 0 &&
+          !selectedTags.every((tag: string) => (item.tags ?? []).includes(tag))
+        ) {
+          return false;
+        }
+
+        return true;
+      });
+    };
+    setFilteredData(getFilteredData());
+  }, [selectedDifficulty, selectedTags, data, calories]);
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <FlatList
-      style={styles.container}
-      data={data}
+      data={filteredData}
       renderItem={({ item }) => (
         <TouchableOpacity
           activeOpacity={1}
           onPress={() =>
             navigation.navigate('Details', {
-              item,
+              id: item.id,
             })
           }
         >
-          <Recipe
-            name={item.name}
-            image={item.image}
-            difficulty={item.difficulty}
-            caloriesPerServing={item.caloriesPerServing}
-            rating={item.rating}
-            cookTimeMinutes={item.cookTimeMinutes}
-          />
+          <Recipe {...item} />
         </TouchableOpacity>
       )}
       keyExtractor={item => item.id}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 25,
-  },
-});
