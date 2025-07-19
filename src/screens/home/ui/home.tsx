@@ -1,8 +1,8 @@
-import { Recipes } from '../../../widgets/recipes';
-import { Modal, View } from 'react-native';
-import { ButtonModal } from '../../../features/buttonModal';
-import { Filters } from '../../../widgets/filters/ui';
 import React from 'react';
+import { Modal, View } from 'react-native';
+import { Recipes } from '../../../widgets/recipes';
+import { ButtonModal } from '../../../features/buttonModal';
+import { Filters } from '../../../widgets/filters';
 
 export const Home = () => {
   const [open, setOpen] = React.useState(false);

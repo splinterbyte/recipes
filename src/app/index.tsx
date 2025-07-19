@@ -1,13 +1,12 @@
-import React from 'react';
 import { QueryProvider } from './providers';
-import { RootStack } from './navigation';
+import { Navigation } from './navigation';
 import { NavigationContainer } from '@react-navigation/native';
 
 export const Main = () => {
   return (
     <QueryProvider>
       <NavigationContainer>
-        <RootStack />
+        <Navigation />
       </NavigationContainer>
     </QueryProvider>
   );

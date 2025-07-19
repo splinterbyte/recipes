@@ -1,1 +1,1 @@
-export { SortByDifficulty } from './ui';
+export { SortByDifficulty } from './ui/sortByDifficuty';

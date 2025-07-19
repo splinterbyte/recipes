@@ -1,1 +1,1 @@
-export { Recipes } from './ui';
+export { Recipes } from './ui/recipes';

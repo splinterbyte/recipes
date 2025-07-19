@@ -1,1 +1,1 @@
-export { SortByCalories } from './ui';
+export { SortByCalories } from './ui/sortByCategories';

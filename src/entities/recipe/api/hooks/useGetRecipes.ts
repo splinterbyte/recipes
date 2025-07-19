@@ -1,14 +1,27 @@
-import { useQuery } from '@tanstack/react-query';
-import { getRecipe } from '../../../../entities/recipe';
-import { RecipeItem } from '../../../../entities/recipe/types';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { getRecipe } from '../getRecipe';
+import { RecipeItem, RecipesResponse } from '../../types';
 
-export const useGetRecipes = (recipeId: number | null) =>
-  useQuery({
+export function useGetRecipes(
+  recipeId: number,
+): UseQueryResult<RecipeItem | undefined, Error>;
+
+export function useGetRecipes(
+  recipeId: null,
+): UseQueryResult<RecipeItem[], Error>;
+
+export function useGetRecipes(
+  recipeId: number | null,
+): UseQueryResult<RecipeItem | RecipeItem[] | undefined, Error> {
+  return useQuery({
     queryKey: ['recipes', recipeId],
     queryFn: getRecipe,
-    select: data => {
-      return recipeId
-        ? data.find((recipe: RecipeItem) => recipe.id === recipeId)
-        : data;
+    select: (data: RecipesResponse) => {
+      const recipes = data.recipes || [];
+      if (recipeId !== null) {
+        return recipes.find((recipe: RecipeItem) => recipe.id === recipeId);
+      }
+      return recipes;
     },
   });
+}

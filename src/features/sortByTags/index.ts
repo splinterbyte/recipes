@@ -1,1 +1,1 @@
-export { SortByTags } from './ui';
+export { SortByTags } from './ui/sortByTags';

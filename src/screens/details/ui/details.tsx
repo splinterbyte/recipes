@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { DetailsScreenParams } from '../types';
 import { StarRatingDisplay } from 'react-native-star-rating-widget';
-import { useGetRecipes } from '../../../entities/recipe/api/hooks/useGetRecipes';
+import { useGetRecipes } from '../../../entities/recipe';
 
 type DetailsScreenRouteProp = RouteProp<
   {

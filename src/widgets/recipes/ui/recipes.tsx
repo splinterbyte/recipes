@@ -1,11 +1,16 @@
 import React from 'react';
-import { FlatList, RefreshControl, TouchableOpacity, View } from 'react-native';
-import { useGetRecipes } from '../../../entities/recipe/api/hooks/useGetRecipes';
-import { Recipe } from '../../../entities/recipe';
+import {
+  FlatList,
+  RefreshControl,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useGetRecipes, RecipeItem, Recipe } from '../../../entities/recipe';
 import { RootStackParamList } from '../../../app/navigation/types';
-import { RecipeItem } from '../../../entities/recipe/types';
+
 import { Skeleton } from './skeleton';
 
 export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
@@ -27,16 +32,15 @@ export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
         if (selectedDifficulty && item.difficulty !== selectedDifficulty)
           return false;
 
-        const itemCalories = item.caloriesPerServing ?? 0;
-        const minCal = Number(calories.min) || 0;
-        const maxCal = Number(calories.max) || Infinity;
-
-        if (itemCalories < minCal || itemCalories > maxCal) {
+        if (
+          item.caloriesPerServing < (calories.min || 0) ||
+          item.caloriesPerServing > (calories.max || Infinity)
+        ) {
           return false;
         }
         if (
           selectedTags.length > 0 &&
-          !selectedTags.every((tag: string) => (item.tags ?? []).includes(tag))
+          !selectedTags.every((tag: string) => item.tags.includes(tag))
         ) {
           return false;
         }
@@ -46,6 +50,14 @@ export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
     };
     setFilteredData(getFilteredData());
   }, [selectedDifficulty, selectedTags, data, calories]);
+
+  if (!data) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   if (isLoading || isRefetching) {
     return (
@@ -69,7 +81,7 @@ export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
           />
         }
         data={filteredData}
-        renderItem={({ item }) => (
+        renderItem={({ item }: { item: RecipeItem }) => (
           <TouchableOpacity activeOpacity={1} onPress={() => nav(item.id)}>
             <Recipe {...item} />
           </TouchableOpacity>

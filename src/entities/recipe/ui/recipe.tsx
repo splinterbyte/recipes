@@ -22,11 +22,7 @@ export const Recipe = ({
         <View style={styles.description}>
           <Text style={styles.text}>{caloriesPerServing} kcal</Text>
           <View style={styles.rating}>
-            <StarRatingDisplay
-              rating={rating ?? 0}
-              color="white"
-              starSize={11}
-            />
+            <StarRatingDisplay rating={rating} color="white" starSize={11} />
             <Text style={styles.text}>{rating}</Text>
           </View>
         </View>
