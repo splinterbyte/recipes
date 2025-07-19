@@ -1,18 +1,25 @@
-import { RefreshControl, ScrollView, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { FlatList, RefreshControl, TouchableOpacity, View } from 'react-native';
 import { useGetRecipes } from '../../../entities/recipe/api/hooks/useGetRecipes';
 import { Recipe } from '../../../entities/recipe';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../app/navigation/types';
-import React from 'react';
 import { RecipeItem } from '../../../entities/recipe/types';
 import { Skeleton } from './skeleton';
 
 export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
-  const { data, isLoading, refetch } = useGetRecipes(null);
+  const { data, isLoading, refetch, isRefetching } = useGetRecipes(null);
   const [filteredData, setFilteredData] = React.useState(data);
-  const [refreshing, setRefreshing] = React.useState(false);
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  const nav = React.useCallback(
+    (itemId: number) => {
+      navigation.navigate('Details', { id: itemId });
+    },
+    [navigation],
+  );
   React.useEffect(() => {
     const getFilteredData = () => {
       if (!data) return [];
@@ -40,37 +47,34 @@ export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
     setFilteredData(getFilteredData());
   }, [selectedDifficulty, selectedTags, data, calories]);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    refetch();
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, [refetch]);
-
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  if (isLoading || isRefetching) {
+    return (
+      <View>
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
+      </View>
+    );
+  }
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      {isLoading || refreshing
-        ? [...new Array(5)].map((_, index) => <Skeleton key={index} />)
-        : filteredData.map((item: RecipeItem) => (
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={() =>
-                navigation.navigate('Details', {
-                  id: item.id ?? 0,
-                })
-              }
-            >
-              <Recipe {...item} />
-            </TouchableOpacity>
-          ))}
-    </ScrollView>
+    <View>
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefetching}
+            onRefresh={() => refetch()}
+          />
+        }
+        data={filteredData}
+        renderItem={({ item }) => (
+          <TouchableOpacity activeOpacity={1} onPress={() => nav(item.id)}>
+            <Recipe {...item} />
+          </TouchableOpacity>
+        )}
+      />
+    </View>
   );
 };
