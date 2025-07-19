@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Text,
+  StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -51,10 +52,10 @@ export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
     setFilteredData(getFilteredData());
   }, [selectedDifficulty, selectedTags, data, calories]);
 
-  if (!data) {
+  if (filteredData?.length === 0) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View style={styles.notFound}>
+        <Text>Recipes not found</Text>
       </View>
     );
   }
@@ -90,3 +91,11 @@ export const Recipes = ({ selectedDifficulty, selectedTags, calories }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  notFound: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 300,
+  },
+});

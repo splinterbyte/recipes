@@ -1,6 +1,11 @@
 import { View, TextInput, StyleSheet } from 'react-native';
 
-export const SortByCalories = ({ setCalories, calories }) => {
+type Props = {
+  setCalories: (calories: { min: string; max: string }) => void;
+  calories: { min: string; max: string };
+};
+
+export const SortByCalories = ({ setCalories, calories }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>

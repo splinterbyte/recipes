@@ -8,10 +8,15 @@ const data = [
   { label: 'Hard', value: 'Hard' },
 ];
 
+type Props = {
+  setSelectedDifficulty: (difficulty: string) => void;
+  selectedDifficulty: string;
+};
+
 export const SortByDifficulty = ({
   setSelectedDifficulty,
   selectedDifficulty,
-}) => {
+}: Props) => {
   const renderItem = item => {
     return (
       <View style={styles.item}>

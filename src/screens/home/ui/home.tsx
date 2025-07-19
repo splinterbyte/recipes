@@ -8,7 +8,10 @@ export const Home = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedDifficulty, setSelectedDifficulty] = React.useState();
   const [selectedTag, setSelectedTag] = React.useState<string[]>([]);
-  const [calories, setCalories] = React.useState({ min: 0, max: Infinity });
+  const [calories, setCalories] = React.useState({
+    min: '',
+    max: '',
+  });
   return (
     <View style={{ paddingTop: 50 }}>
       <View style={{ top: 1 }}>

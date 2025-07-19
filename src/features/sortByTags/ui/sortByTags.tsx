@@ -2,7 +2,12 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { MultiSelect } from 'react-native-element-dropdown';
 import { useGetRecipes } from '../../../entities/recipe/api/hooks/useGetRecipes';
 
-export const SortByTags = ({ setSelectedTag, selectedTags }) => {
+type Props = {
+  setSelectedTag: (tag: string[]) => void;
+  selectedTags: string[];
+};
+
+export const SortByTags = ({ setSelectedTag, selectedTags }: Props) => {
   const { data } = useGetRecipes(null);
 
   const allTags = [...new Set(data?.flatMap(item => item.tags))]

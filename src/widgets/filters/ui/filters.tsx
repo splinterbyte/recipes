@@ -3,6 +3,15 @@ import { SortByDifficulty } from '../../../features/sortByDifficulty';
 import { SortByTags } from '../../../features/sortByTags';
 import { SortByCalories } from '../../../features/sortByCalories';
 
+type Props = {
+  setSelectedDifficulty: (difficulty: string) => void;
+  setSelectedTag: (tag: string[]) => void;
+  selectedDifficulty: string;
+  selectedTags: string[];
+  setCalories: (calories: { min: string; max: string }) => void;
+  calories: { min: string; max: string };
+};
+
 export const Filters = ({
   setSelectedDifficulty,
   setSelectedTag,
@@ -10,7 +19,7 @@ export const Filters = ({
   selectedTags,
   setCalories,
   calories,
-}) => {
+}: Props) => {
   return (
     <View style={styles.centeredView}>
       <View style={styles.container}>
